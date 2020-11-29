@@ -108,15 +108,9 @@ class InputHandler implements Runnable/* 3a. how to make this class multithreadi
 			/* 3f. How to continuously get the message returned from server? */    
 				_br = new BufferedReader(new InputStreamReader(System.in));
                 while((sInput = _br.readLine()) != null){
-					//This one is a gift for you, when press "Q", break the loop of Questions-4
-					if(sInput.equals("Q")){
-						System.out.println("Quit the program.");
-						throw new Exception("Quit the program.");
-					}else{
-						//5. How to send the variable "cmd" to server?
-						System.out.println("Send to server: "+sInput); /* 3g. How to read line from server? */
-						_out.println(sInput);
-					}					
+				//5. How to send the variable "cmd" to server?
+				System.out.println("Send to server: "+sInput); /* 3g. How to read line from server? */
+				_out.println(sInput);				
 			}//end of loop
 		}catch(Exception e){
 			System.out.println("Connection Closed");
