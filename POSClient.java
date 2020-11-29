@@ -43,31 +43,13 @@ public class POSClient{
 			out = new PrintWriter(skt.getOutputStream(), true);
              
 			//3. How to instantize a thread class and run it?
-            Thread thread = new Thread(new InputHandler(skt));
+            Thread thread = new Thread(new InputHandler(skt,out));
                         
             thread.start();
-			
-			boolean wellcomeMsg = true;
+	
 			/* 4. How to continuously get user input? Assign the input to variable "cmd" */			
             while((cmd = in.readLine()) != null){
-
-				if(wellcomeMsg){
-					System.out.println(cmd);
-					wellcomeMsg = false;
-				}
-
-				if(!cmd.contains("From Server:")){
-					//This one is a gift for you, when press "Q", break the loop of Questions-4
-					if(cmd.contains("Q")){
-						System.out.println("Quit the program.");
-						break;
-					}
-					else{
-						//5. How to send the variable "cmd" to server?
-						WriteToServer(cmd);
-						System.out.println(cmd);  
-					}
-				}           
+				System.out.println(cmd);             
 			}//end of loop
 
 			//6. Close all the connection and socket
@@ -94,7 +76,7 @@ public class POSClient{
 	private static void closeConn(){
 		try{
 			//20. use shared object public method to release a free slot in the ArrayList
-			sharedPoolObj.cleanup();
+                        sharedPoolObj.cleanup();
 			//21. close all input, output stream and socket
 			in.close();
 			out.close();
@@ -112,19 +94,29 @@ class InputHandler implements Runnable/* 3a. how to make this class multithreadi
 	//3b. Declare a variable that can read line from server
        Socket _ssk = null;
 	   BufferedReader _br = null;
-	   String sInput = "";      
+	   String sInput = "";    
+	   PrintWriter _out = null;  
 	
-	public InputHandler(Socket ssk){/* 3c. What Kind of variable it should be pass from main program? */
+	public InputHandler(Socket ssk, PrintWriter out){/* 3c. What Kind of variable it should be pass from main program? */
 		//3d. Assign the input parameter to the variable in 3b
-            this._ssk = ssk;              
+			this._ssk = ssk; 
+			_out = out;      
 	}
 	
 	public void run()/* 3e. What is this method? */{
 		try{
 			/* 3f. How to continuously get the message returned from server? */    
 				_br = new BufferedReader(new InputStreamReader(System.in));
-                while((sInput = _br.readLine()) != null){					
-					System.out.println(sInput); /* 3g. How to read line from server? */
+                while((sInput = _br.readLine()) != null){
+					//This one is a gift for you, when press "Q", break the loop of Questions-4
+					if(sInput.equals("Q")){
+						System.out.println("Quit the program.");
+						break;
+					}else{
+						//5. How to send the variable "cmd" to server?
+						System.out.println("Send to server: "+sInput); /* 3g. How to read line from server? */
+						_out.println(sInput);
+					}					
 			}//end of loop
 		}catch(Exception e){
 			System.out.println("Connection Closed");

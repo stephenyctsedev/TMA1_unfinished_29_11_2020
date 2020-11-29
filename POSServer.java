@@ -245,7 +245,7 @@ class ClientHandler implements Runnable/* 14. how to make this class multithread
 			while(isRunning){
 
 
-				WriteToClient("From Server: Hello");
+				WriteToClient("Hello");
 				System.out.println("Wait for User Input: ");
 						
 				String[] values = null;
