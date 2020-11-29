@@ -49,7 +49,7 @@ public class POSClient{
 	
 			/* 4. How to continuously get user input? Assign the input to variable "cmd" */			
             while((cmd = in.readLine()) != null){
-				System.out.println(cmd);             
+				System.out.println(cmd);           
 			}//end of loop
 
 			//6. Close all the connection and socket
@@ -111,7 +111,7 @@ class InputHandler implements Runnable/* 3a. how to make this class multithreadi
 					//This one is a gift for you, when press "Q", break the loop of Questions-4
 					if(sInput.equals("Q")){
 						System.out.println("Quit the program.");
-						break;
+						throw new Exception("Quit the program.");
 					}else{
 						//5. How to send the variable "cmd" to server?
 						System.out.println("Send to server: "+sInput); /* 3g. How to read line from server? */
